@@ -55,7 +55,10 @@
     "react/jsx-closing-bracket-location": "off",
     "react/jsx-closing-tag-location": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
-    "prettier/prettier": "warn"
+    "prettier/prettier": "warn",
+    "import/prefer-default-export": "off",
+    "react/no-unused-prop-types": "off",
+    "react/no-array-index-key": "off"
   },
   "overrides": [
     {
