@@ -88,8 +88,8 @@ export default function Home() {
                                         items: [{ price: 4.5 }],
                                     },
                                 ]}
-                                title="Пицца"
-                                categoryId="1"
+                                title="Пиццы"
+                                categoryId={1}
                             />
 
                             <ProductsGroupList
@@ -166,8 +166,8 @@ export default function Home() {
                                         items: [{ price: 4.5 }],
                                     },
                                 ]}
-                                title="Завтрак"
-                                categoryId="2"
+                                title="Комбо"
+                                categoryId={2}
                             />
                         </div>
                     </div>
