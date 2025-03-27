@@ -10,3 +10,4 @@ export * from './rangeSlider';
 export * from './checkboxFiltersGroup';
 export * from './productCart';
 export * from './productsGroupList';
+export * from './searchInput';
