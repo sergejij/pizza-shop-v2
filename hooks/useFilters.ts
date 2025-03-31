@@ -1,5 +1,5 @@
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useSet } from 'react-use';
 
 interface PriceRange {
@@ -30,22 +30,22 @@ interface ReturnProps extends Filters {
 export const useFilters = (): ReturnProps => {
     const searchParams = useSearchParams() as unknown as Map<keyof QueryFilters, string>;
 
-    const [selectedIngredients, { toggle: setSelectedIngredients }] = useSet(
+    const [selectedIngredients, { toggle: toggleIngredients }] = useSet(
         new Set<string>(searchParams.get('ingredients')?.split(','))
     );
 
-    const [prices, setPrices] = useState<PriceRange>({
-        priceTo: Number(searchParams.get('priceTo')) || 1000,
-        priceFrom: Number(searchParams.get('priceFrom')) || 0,
-    });
-
-    const [sizes, { toggle: setSizes }] = useSet(
+    const [sizes, { toggle: toggleSizes }] = useSet(
         new Set<string>(searchParams.has('sizes') ? searchParams.get('sizes')?.split(',') : [])
     );
 
-    const [pizzaTypes, { toggle: setPizzaTypes }] = useSet(
+    const [pizzaTypes, { toggle: togglePizzaTypes }] = useSet(
         new Set<string>(searchParams.has('pizzaTypes') ? searchParams.get('pizzaTypes')?.split(',') : [])
     );
+
+    const [prices, setPrices] = useState<PriceRange>({
+        priceFrom: Number(searchParams.get('priceFrom')) || undefined,
+        priceTo: Number(searchParams.get('priceTo')) || undefined,
+    });
 
     const updatePrice = (name: keyof PriceRange, value: number) => {
         setPrices((prev) => ({
@@ -54,14 +54,17 @@ export const useFilters = (): ReturnProps => {
         }));
     };
 
-    return {
-        sizes,
-        pizzaTypes,
-        selectedIngredients,
-        prices,
-        setPrices: updatePrice,
-        setPizzaTypes,
-        setSizes,
-        setSelectedIngredients,
-    };
+    return useMemo(
+        () => ({
+            sizes,
+            pizzaTypes,
+            selectedIngredients,
+            prices,
+            setPrices: updatePrice,
+            setPizzaTypes: togglePizzaTypes,
+            setSizes: toggleSizes,
+            setSelectedIngredients: toggleIngredients,
+        }),
+        [sizes, pizzaTypes, selectedIngredients, prices]
+    );
 };
